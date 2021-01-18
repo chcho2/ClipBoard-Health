@@ -1,7 +1,10 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import filters from '../../data/filters';
+import filtersData from '../../data/filters';
 
-export default async (req, res) => {
+const sendFiltersFile = async (req, res) => {
+  
   res.statusCode = 200;
-  res.json(filters)
-}
+  res.json({filtersData});
+};
+
+export default sendFiltersFile;

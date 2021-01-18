@@ -1,65 +1,105 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.css';
+import Filters from '../components/Filters';
+import Head from 'next/head';
+import Navbar from '../components//Navbar';
+import filters from './api/filters';
+import SearchBar from '../components/SearchBar';
+import Jobs from '../components/JobPosting/Jobs';
+import FilterNav from '../components/JobPosting/FilterNav';
+import Footer from '../components/Footer';
+import { useEffect, useState } from 'react';
+import React from 'react';
+import jobList from './api/jobs';
 
-export default function Home() {
+const Home = (filters) => {
+
+  // using loading to check if got initial list of job fetch on initial data
+  const [loading, setLoading] = useState(true);
+
+  // checking if clicked the sort by options
+  const [clickedSortBy, setClickedSortBy] = useState(false);
+
+  // global state
+  const [job, setJob] = useState({
+   
+    jobList: [],
+    totalJobNum: 0,
+    jobIsClicked: false,
+    sortedJob: [],
+  });
+
+
+
+  // fetching initial job list and storing in job.jobList state
+  const fetchInitialJobs = async () => {
+    await fetch('/api/jobs')
+      .then((data) => data.json())
+      .then((res) => {
+        setJob({
+          ...job,
+          totalJobNum: res.totalJobNum,
+          jobList: res.jobs,
+        });
+      });
+
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchInitialJobs();
+  }, []);
+
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Clipboard Health</title>
+        <link rel="icon" href="../public/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+      <Navbar />
+      <div className="bg-gray-100 mt-2">
+        <SearchBar job={job} setJob={setJob} />
+        <div className="h-full flex">
+          <Filters job={job} setJob={setJob} />
+          <div
+            className="flex-1 m-3 bg-white">
+            {loading ? (
+              <div>Loading...</div>
+            ) : (
+              <FilterNav
+                job={job}
+                setClickedSortBy={setClickedSortBy}
+                clickedSortBy={clickedSortBy}
+                setJob={setJob}
+              />
+            )}
+            {clickedSortBy
+              ? job.sortedJob.map((hosp, i) => (
+                  <Jobs
+                    key={hosp.name}
+                    hospName={hosp.name}
+                    index={i}
+                    hospJobs={hosp.total_jobs_in_hospital}
+                    items={hosp.items}
+                    setJob={setJob}
+                  />
+                ))
+              : job.jobList.map((hosp, i) => (
+                  <Jobs
+                    key={hosp.name}
+                    hospName={hosp.name}
+                    index={i}
+                    hospJobs={hosp.total_jobs_in_hospital}
+                    items={hosp.items}
+                    setJob={setJob}
+                  />
+                ))}
+          </div>
         </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+      </div>
+      <Footer />
     </div>
-  )
-}
+  );
+};
+
+export default Home;
