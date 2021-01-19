@@ -16,23 +16,24 @@ const SortBy = (props) => {
   }
 
   function orderOnChange(order,e) {
-    console.log('sortby', job.sortby)
-    console.log('type', type)
-    console.log('order', order)
-   
     setDropDown(!dropDown);
 
-    if (order === 'Remove') {
- 
-      delete deepCopySortby.type;
-      console.log('deepCopySortby', deepCopySortby)
+    if (order === 'Remove' && Object.values(job.sortby).length === 1) {
+      setJob({ ...job, jobList: [...job.initialJobList], sortby: {}});
+      setOrder('');
+      return;
+
+    } else if (order === 'Remove') {
+      const deepCopySortby = JSON.parse(JSON.stringify(job.sortby));
+      delete deepCopySortby[type];
       setJob({ ...job, sortby: {...deepCopySortby} });
       setOrder('');
       return;
+
     } else {
- 
       setJob({ ...job, sortby: {...job.sortby, [type]: order} });
     }
+    
     setOrder(order.slice(0, 3));  
   }
 

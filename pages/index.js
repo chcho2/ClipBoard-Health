@@ -45,6 +45,7 @@ const Home = (filters) => {
     setLoading(false);
   };
 
+  // with updated state of joblist or sortby, call sortOrder function to sortby the joblist
   function sortOrder () {
     if(Object.values(job.sortby).length !== 0) {
       Object.entries(job.sortby).forEach(([k, v]) => {
@@ -55,13 +56,13 @@ const Home = (filters) => {
         if (v === 'Descending') {
           job.jobList.reverse();
         }
+        
       })
       setJob({ ...job, jobList: job.jobList });
     }
-  
-    
-  
+ 
   }
+
   useEffect(() => {
     sortOrder();
   }, [job.jobList, job.sortby]);
@@ -89,12 +90,9 @@ const Home = (filters) => {
             ) : (
               <FilterNav
                 job={job}
-               
-                
                 setJob={setJob}
               />
             )}
-           
                {job.jobList.map((hosp, i) => (
                   <Jobs
                     key={hosp.name}
