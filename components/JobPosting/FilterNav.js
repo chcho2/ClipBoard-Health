@@ -2,7 +2,7 @@ import SortBy from './SortBy';
 import React, { useEffect, useState } from 'react';
 
 const FilterNav = (props) => {
-  const { job, setJob, setClickedSortBy, clickedSortBy } = props;
+  const { job, setJob } = props;
 
   const sortedBy = [
     ['Location', 'city'],
@@ -34,8 +34,8 @@ const FilterNav = (props) => {
             value={sort[0]}
             job={job}
             setJob={setJob}
-            setClickedSortBy={setClickedSortBy}
-            clickedSortBy={clickedSortBy}
+        
+         
           />
         ))}
       </div>

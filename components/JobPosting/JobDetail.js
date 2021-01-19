@@ -2,23 +2,19 @@ import React, { useEffect, useState } from 'react';
 
 const JobDetail = (props) => {
   const { hours, workSchedule, summary, dept } = props;
-  console.log('what is hour', hours, workSchedule);
+  
   return (
     <div className="w-full mt-5 h-full bg-white">
       <div className=" w-10/12 ">
-        <div className="">
           <div
             className="table-row grid-cols-3 divansform scale-100
-                    text-xs py-1  cursor-default 
-
-            bg-white bg-opacity-25"
-          >
+                    text-xs py-1 cursor-default bg-white bg-opacity-25">
             <div className="table-row grid md:flex relative items-center whitespace-flex-wrap font-semibold text-black">
               <div className="mr-32">Department:</div>
               <div className="leading-5 table-cell py-3 text-gray-500 font-medium">
                 {dept}
               </div>
-            </div>
+           
 
             <div className="relative grid md:flex table-row items-center whitespace-flex-wrap font-semibold text-black">
               <div className="mr-32 whitespace-nowrap">Hours / shifts:</div>

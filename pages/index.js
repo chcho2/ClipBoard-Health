@@ -16,16 +16,15 @@ const Home = (filters) => {
   // using loading to check if got initial list of job fetch on initial data
   const [loading, setLoading] = useState(true);
 
-  // checking if clicked the sort by options
-  const [clickedSortBy, setClickedSortBy] = useState(false);
 
   // global state
   const [job, setJob] = useState({
-   
+    initialJobList: [],
     jobList: [],
     totalJobNum: 0,
     jobIsClicked: false,
-    sortedJob: [],
+    sortby: {},
+    sortOrder: () => sortOrder
   });
 
 
@@ -39,11 +38,33 @@ const Home = (filters) => {
           ...job,
           totalJobNum: res.totalJobNum,
           jobList: res.jobs,
+          initialJobList: res.jobs
         });
       });
 
     setLoading(false);
   };
+
+  function sortOrder () {
+    if(Object.values(job.sortby).length !== 0) {
+      Object.entries(job.sortby).forEach(([k, v]) => {
+        job.jobList.sort((a, b) => {
+          if (a.items[0][k][0] < b.items[0][k][0]) return -1;
+        });
+    
+        if (v === 'Descending') {
+          job.jobList.reverse();
+        }
+      })
+      setJob({ ...job, jobList: job.jobList });
+    }
+  
+    
+  
+  }
+  useEffect(() => {
+    sortOrder();
+  }, [job.jobList, job.sortby]);
 
   useEffect(() => {
     fetchInitialJobs();
@@ -68,23 +89,13 @@ const Home = (filters) => {
             ) : (
               <FilterNav
                 job={job}
-                setClickedSortBy={setClickedSortBy}
-                clickedSortBy={clickedSortBy}
+               
+                
                 setJob={setJob}
               />
             )}
-            {clickedSortBy
-              ? job.sortedJob.map((hosp, i) => (
-                  <Jobs
-                    key={hosp.name}
-                    hospName={hosp.name}
-                    index={i}
-                    hospJobs={hosp.total_jobs_in_hospital}
-                    items={hosp.items}
-                    setJob={setJob}
-                  />
-                ))
-              : job.jobList.map((hosp, i) => (
+           
+               {job.jobList.map((hosp, i) => (
                   <Jobs
                     key={hosp.name}
                     hospName={hosp.name}

@@ -34,7 +34,6 @@ const JobList = (props) => {
                     {formatDistanceToNowStrict(new Date(eachJob.created))} ago
                   </div>
                 </div>
-
                 <div>
                   {jobIsClicked ? (
                     <JobDetail

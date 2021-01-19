@@ -9,25 +9,65 @@ const SearchBar = (props) => {
     setSearchWord(e.target.value);
   };
 
-  // fetch request to /api/jobs with search word
-  async function searchForJob() {
-    const data = await fetch('/api/jobs', {
-      headers: {
-        'Content-type': 'Application/json',
-        searchWord,
-      },
-    });
 
-    const res = await data.json();
-    
+  function searchForJob() {
+    const regex = new RegExp(searchWord, 'i');
+    let i = 0;
+    const matched = [];
+    let totalJobNum = 0;
+
+    while (i < job.jobList.length) {
+
+      const hospital = job.jobList[i];
+
+      // checking if searchword is in name or job_title of the hospital
+      if (hospital.name.match(regex) || hospital.job_title.match(regex)) {
+        matched.push(hospital);
+        totalJobNum += hospital.total_jobs_in_hospital;
+        i++;
+
+      // going inside the items array to check the searchword
+      } else {
+        const newItems = [];
+        hospital.items.forEach((eachJob) => {
+          Object.entries(eachJob).forEach(([k, v]) => {
+            if (
+              k === 'required_skills' ||
+              (k === 'department' && !newItems.includes(eachJob))
+            ) {
+              if (v.some((str) => str.match(regex))) {
+                newItems.push(eachJob);
+                return;
+              }
+            } else {
+              // using new String to convert number to string
+              if (new String(v).match(regex) && !newItems.includes(eachJob)) {
+                newItems.push(eachJob);
+                return;
+              }
+            }
+          });
+        });
+        hospital.items = newItems;
+
+        // checking the length of hospital.items to make sure to not push if empty
+        if (hospital.items.length !== 0) {
+          hospital.total_jobs_in_hospital = hospital.items.length;
+          matched.push(hospital);
+          totalJobNum += hospital.total_jobs_in_hospital;
+        }
+
+        i++;
+      }
+    }
     setSearchWord('');
 
-    // storing response of totalJobNum and matched job list
-    setJob({
-      ...job,
-      totalJobNum: res.totalJobNum,
-      jobList: res.matched,
-    });
+      // storing response of totalJobNum and matched job list
+      setJob({
+        ...job,
+        totalJobNum: totalJobNum,
+        jobList: matched,
+      });
   }
 
   return (

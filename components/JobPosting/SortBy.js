@@ -9,46 +9,31 @@ const SortBy = (props) => {
     type,
     job,
     setJob,
-    clickedSortBy,
-    setClickedSortBy,
   } = props;
 
   function dropDownOnChange() {
     setDropDown(!dropDown);
   }
 
-  function orderOnChange(order) {
+  function orderOnChange(order,e) {
+    console.log('sortby', job.sortby)
+    console.log('type', type)
+    console.log('order', order)
+   
     setDropDown(!dropDown);
 
     if (order === 'Remove') {
-      setClickedSortBy(false);
-      setJob({ ...job, sortedJob: [] });
+ 
+      delete deepCopySortby.type;
+      console.log('deepCopySortby', deepCopySortby)
+      setJob({ ...job, sortby: {...deepCopySortby} });
       setOrder('');
       return;
+    } else {
+ 
+      setJob({ ...job, sortby: {...job.sortby, [type]: order} });
     }
-    setOrder(order.slice(0, 3));
-    setClickedSortBy(true);
-
-    if (job.sortedJob.length === 0) {
-      
-      job.sortedJob = [...job.jobList];
-     
-    }
-
-    orderOfSort(job.sortedJob, type, order);
-    setJob({ ...job, sortedJob: job.sortedJob });
-  }
-
-  function orderOfSort(sortedJob, type, order) {
-
-    sortedJob.sort((a, b) => {
-      if (a.items[0][type][0] < b.items[0][type][0]) return -1;
-    });
-
-    if (order === 'Descending') {
-      sortedJob.reverse();
-    }
-  
+    setOrder(order.slice(0, 3));  
   }
 
   return (
@@ -74,6 +59,7 @@ const SortBy = (props) => {
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
               role="menuitem"
               id="Ascending"
+
               onClick={(e) => orderOnChange(e.target.id)}
             >
               Ascending
