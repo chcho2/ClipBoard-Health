@@ -75,13 +75,19 @@ const Navbar = () => (
           </div>
 
           <div className="ml-4 flex items-center md:ml-6">
-            <button className="hidden md:flex text-xs border-2 mr-7 py-1.5 px-3 border-blue-400 hover:text-blue-700 text-blue-500 rounded">
+            <button className="hidden md:flex whitespace-nowrap text-xs border-2 mr-7 py-1.5 px-3 border-blue-400 hover:text-blue-700 text-blue-500 rounded">
               CREATE JOB
             </button>
-            <button className="flex bg-blue-500 p-1 rounded-full text-sm text-white hover:bg-blue-900 h-7 w-7 items-center mr-2 justify-center">
+            <div className="flex-col mb-3 items-center ">
+          
+            <button className="flex bg-blue-500 p-1 rounded-full text-sm text-white hover:bg-blue-900 h-7 w-7 items-center mr-2 ">
               JO
+              <span className="flex mb-5 mr-4 border-white border-2 bg-red-400 p-1 rounded-full text-xs text-white hover:bg-red-900 h-4 w-4 items-center justify-center">
+              2
+            </span>
             </button>
-
+          
+            </div>
             <a
               href="#"
               className="hidden md:flex text-gray-600 hover:text-black px-3 py-2 rounded-md text-xs font-medium"

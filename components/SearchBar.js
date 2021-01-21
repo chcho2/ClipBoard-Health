@@ -71,7 +71,7 @@ const SearchBar = (props) => {
   }
 
   return (
-    <div className="flex bg-gray-100 ml-2 m-2 -mb-3 w-full items-center select-none ">
+    <div className="flex bg-gray-100 ml-3 m-2 -mb-3 w-full items-center select-none ">
       <button
         type="submit"
         className="flex items-center focus:outline-none py-3 px-3 leading-none bg-white
@@ -96,7 +96,7 @@ const SearchBar = (props) => {
         name="SearchBar"
         value={searchWord}
         onChange={searchWordOnChange}
-        className="bg-white p-4 w-full my-2 mr-4 focus:outline-none"
+        className="bg-white p-4 w-full my-2 mr-6 focus:outline-none"
       />
     </div>
   );
