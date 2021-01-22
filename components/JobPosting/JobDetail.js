@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const JobDetail = (props) => {
   const { hours, workSchedule, summary, dept } = props;
-  
+
   return (
     <div className="w-full mt-5 h-full bg-white">
       <div className=" w-10/12 ">

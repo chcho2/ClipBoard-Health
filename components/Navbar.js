@@ -79,14 +79,12 @@ const Navbar = () => (
               CREATE JOB
             </button>
             <div className="flex-col mb-3 items-center ">
-          
-            <button className="flex bg-blue-500 p-1 rounded-full text-sm text-white hover:bg-blue-900 h-7 w-7 items-center mr-2 ">
-              JO
-              <span className="flex mb-5 mr-4 border-white border-2 bg-red-400 p-1 rounded-full text-xs text-white hover:bg-red-900 h-4 w-4 items-center justify-center">
-              2
-            </span>
-            </button>
-          
+              <button className="flex bg-blue-500 p-1 rounded-full text-sm text-white hover:bg-blue-900 h-7 w-7 items-center mr-2 ">
+                JO
+                <span className="flex mb-5 mr-4 border-white border-2 bg-red-400 p-1 rounded-full text-xs text-white hover:bg-red-900 h-4 w-4 items-center justify-center">
+                  2
+                </span>
+              </button>
             </div>
             <a
               href="#"

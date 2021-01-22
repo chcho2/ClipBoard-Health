@@ -34,8 +34,6 @@ const FilterNav = (props) => {
             value={sort[0]}
             job={job}
             setJob={setJob}
-        
-         
           />
         ))}
       </div>

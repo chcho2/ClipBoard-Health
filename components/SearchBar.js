@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 
 const SearchBar = (props) => {
@@ -9,7 +8,6 @@ const SearchBar = (props) => {
     setSearchWord(e.target.value);
   };
 
-
   function searchForJob() {
     const regex = new RegExp(searchWord, 'i');
     let i = 0;
@@ -17,7 +15,6 @@ const SearchBar = (props) => {
     let totalJobNum = 0;
 
     while (i < job.jobList.length) {
-
       const hospital = job.jobList[i];
 
       // checking if searchword is in name or job_title of the hospital
@@ -26,7 +23,7 @@ const SearchBar = (props) => {
         totalJobNum += hospital.total_jobs_in_hospital;
         i++;
 
-      // going inside the items array to check the searchword
+        // going inside the items array to check the searchword
       } else {
         const newItems = [];
         hospital.items.forEach((eachJob) => {
@@ -62,12 +59,12 @@ const SearchBar = (props) => {
     }
     setSearchWord('');
 
-      // storing response of totalJobNum and matched job list
-      setJob({
-        ...job,
-        totalJobNum: totalJobNum,
-        jobList: matched,
-      });
+    // storing response of totalJobNum and matched job list
+    setJob({
+      ...job,
+      totalJobNum: totalJobNum,
+      jobList: matched,
+    });
   }
 
   return (
